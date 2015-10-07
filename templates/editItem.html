@@ -1,0 +1,36 @@
+<!-- template for the row being edited -->
+<td class="hidden" data-id="{{editedItem.id}}"></td>
+<td>
+    <input type="text" ng-model="editedItem.lastName" name="lastName" required placeholder="Enter a last name">
+    <span class="error" ng-show="form.lastName.$dirty || form.lastName.$touched && form.lastName.$invalid">
+        <span ng-show="form.lastName.$error.required">Last Name is required.</span>
+    </span>
+</td>
+<td>
+    <input type="text" ng-model="editedItem.firstName" name="firstName" required placeholder="Enter a first name">
+    <span class="error" ng-show="form.firstName.$dirty || form.firstName.$touched && form.firstName.$invalid">
+        <span ng-show="form.firstName.$error.required">First Name is required.</span>
+    </span>
+</td>
+<td>
+    <input type="number" ng-model="editedItem.age" min="0" name="age" ng-pattern="/^[0-9]{1,7}$/" placeholder="Age">
+    <span class="error" ng-show="form.age.$dirty || form.age.$touched && form.age.$invalid">
+        <span ng-show="form.age.$error.pattern">Age should be a whole positive number.</span>
+    </span>
+</td>
+<td>
+    <input type="email" ng-model="editedItem.email" name="email" required unique="email" placeholder="email@yourdomain.com"
+           ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i">
+    <span class="error" ng-show="form.email.$dirty || form.email.$touched && form.email.$invalid">
+        <span ng-show="form.email.$error.required">Email is required.</span>
+        <span ng-show="form.email.$error.pattern">Invalid email address.</span>
+        <span ng-show="form.email.$error.unique">Email address is already taken.</span>
+    </span>
+</td>
+<td>{{editedItem.created | date:'MM/dd/yyyy'}}<br>{{editedItem.created | date:'hh:mm:ss a'}}</td>
+<td>{{editedItem.lastEdited | date:'MM/dd/yyyy'}}<br>{{editedItem.lastEdited | date:'hh:mm:ss a'}}</td>
+<td><input type="checkbox" ng-model="editedItem.active"></td>
+<td class="icons">
+    <span class="revert" ng-click="revertItemDialog()"></span>
+    <span class="save" ng-class="{disabled: form.$invalid}" ng-click="saveItem()"></span>
+</td>

@@ -1,0 +1,13 @@
+<!-- template for a normal row -->
+<td class="hidden" data-id="{{item.id}}"></td>
+<td>{{item.lastName}}</td>
+<td>{{item.firstName}}</td>
+<td>{{item.age}}</td>
+<td>{{item.email}}</td>
+<td>{{item.created | date:'MM/dd/yyyy'}}<br>{{item.created | date:'hh:mm:ss a'}}</td>
+<td>{{item.lastEdited | date:'MM/dd/yyyy'}}<br>{{item.lastEdited | date:'hh:mm:ss a'}}</td>
+<td class="icons"><span ng-class="{active: item.active}"></span></td>
+<td class="icons">
+    <span class="edit" ng-click="editItem(item)"></span>
+    <span class="delete" ng-click="deleteItemDialog(item)"></span>
+</td>

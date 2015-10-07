@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="userListApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>User List</title>
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- libraries -->
+    <script src="libs/angular.min.js"></script>
+    <script src="libs/jquery-2.1.4.min.js"></script>
+
+    <!-- localizations -->
+    <script src="localizations/angular-locale_en-us.js"></script>
+
+    <!-- services -->
+    <script src="js/services/helper.js"></script>
+
+    <!-- directives -->
+    <script src="js/directives/customSort.js"></script>
+    <script src="js/directives/uniquenessValidation.js"></script>
+
+    <!-- controllers -->
+    <script src="js/controllers/userListAppController.js"></script>
+
+    <!-- app -->
+    <script src="js/app.js"></script>
+</head>
+<body ng-controller="userListController">
+    <!-- just user list header is localized in html, just to get taste of how localization works in angular -->
+    <h1>{{localize('userList')}}</h1>
+    <input type="text" class="filter" placeholder="Filter" ng-disabled="editedItem" ng-model="query" ng-change="search()">
+    <div class="pagination-wrapper clear">
+        <div class="pagination"><a href ng-show="currentPage > 0" ng-click="prevPage()">« Previous {{itemsPerPage}} users | </a>Showing {{getPageFirstItemIndex()}}-{{getPageLastItemIndex()}} of {{filteredItems.length}} users<a href ng-show="currentPage < getPageCount() - 1" ng-click="nextPage()"> | Next {{itemsPerPage}} users »</a></div>
+        <button class="add-user btn btn-default" ng-disabled="editedItem" ng-click="addNewItem()">Add user</button>
+    </div>
+    <!-- form for handling validation of the record being edited -->
+    <form name="form" novalidate>
+        <table class="user-list-table">
+            <thead>
+                <tr>
+                    <th class="id-column hidden"></th>
+                    <th class="last-name-column" custom-sort order="lastName">Last Name</th>
+                    <th class="first-name-column" custom-sort order="firstName">First Name</th>
+                    <th class="age-column" custom-sort order="age">Age</th>
+                    <th class="email-column" custom-sort order="email">Email</th>
+                    <th class="created-column" custom-sort order="created">Created on</th>
+                    <th class="last-edited-column" custom-sort order="lastEdited">Last edited</th>
+                    <th class="active-column" custom-sort order="active">Active</th>
+                    <th class="tools-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- sorting could be done using orderBy but then new item line could appear as a last row and we need it to appear always on top of the grid -->
+                <!--<tr ng-repeat="item in pageItems | orderBy:sort.sortingOrder:sort.reverse" ng-include="getTemplate(item)"></tr>-->
+                <!-- tr template depends on state of record - whether it is currently being edited or not -->
+                <tr ng-repeat="item in pageItems" ng-include="getTemplate(item)"></tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
